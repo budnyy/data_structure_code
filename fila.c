@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+
 
 typedef struct No {
     int dado;
@@ -30,7 +30,7 @@ void fila_destruir(Fila *f) {
     free(f);
 }
 
-bool fila_vazia(Fila *f) {
+int fila_vazia(Fila *f) {
     return f->frente == NULL;
 }
 
@@ -38,9 +38,9 @@ int fila_tamanho(Fila *f) {
     return f->tamanho;
 }
 
-bool fila_enfileirar(Fila *f, int valor) {
+int fila_enfileirar(Fila *f, int valor) {
     No *novo = malloc(sizeof(No));
-    if (!novo) return false;
+    if (!novo) return 0;
     novo->dado = valor;
     novo->prox = NULL;
     if (f->tras)
@@ -49,24 +49,24 @@ bool fila_enfileirar(Fila *f, int valor) {
         f->frente = novo;
     f->tras = novo;
     f->tamanho++;
-    return true;
+    return 1;
 }
 
-bool fila_frente(Fila *f, int *valor) {
-    if (fila_vazia(f)) return false;
+int fila_frente(Fila *f, int *valor) {
+    if (fila_vazia(f)) return 0;
     *valor = f->frente->dado;
-    return true;
+    return 1;
 }
 
-bool fila_desenfileirar(Fila *f, int *valor) {
-    if (fila_vazia(f)) return false;
+int fila_desenfileirar(Fila *f, int *valor) {
+    if (fila_vazia(f)) return 0;
     No *remover = f->frente;
     *valor = remover->dado;
     f->frente = remover->prox;
     if (!f->frente) f->tras = NULL;
     free(remover);
     f->tamanho--;
-    return true;
+    return 1;
 }
 
 void fila_exibir(Fila *f) {

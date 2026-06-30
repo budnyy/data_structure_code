@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+
 
 typedef struct No {
     int dado;
@@ -26,35 +26,35 @@ static No* criar_no(int valor) {
     return novo;
 }
 
-bool arvore_inserir(Arvore *a, int valor) {
+int arvore_inserir(Arvore *a, int valor) {
     No *novo = criar_no(valor);
-    if (!novo) return false;
+    if (!novo) return 0;
     if (!a->raiz) {
         a->raiz = novo;
-        return true;
+        return 1;
     }
     No *atual = a->raiz;
     while (1) {
         if (valor < atual->dado) {
-            if (!atual->esq) { atual->esq = novo; return true; }
+            if (!atual->esq) { atual->esq = novo; return 1; }
             atual = atual->esq;
         } else if (valor > atual->dado) {
-            if (!atual->dir) { atual->dir = novo; return true; }
+            if (!atual->dir) { atual->dir = novo; return 1; }
             atual = atual->dir;
         } else {
             free(novo);
-            return false;
+            return 0;
         }
     }
 }
 
-bool arvore_buscar(Arvore *a, int valor) {
+int arvore_buscar(Arvore *a, int valor) {
     No *atual = a->raiz;
     while (atual) {
-        if (valor == atual->dado) return true;
+        if (valor == atual->dado) return 1;
         atual = (valor < atual->dado) ? atual->esq : atual->dir;
     }
-    return false;
+    return 0;
 }
 
 static void destruir_no(No *no) {
@@ -119,23 +119,23 @@ int arvore_altura(Arvore *a) {
     return altura_no(a->raiz);
 }
 
-bool arvore_minimo(Arvore *a, int *valor) {
-    if (!a->raiz) return false;
+int arvore_minimo(Arvore *a, int *valor) {
+    if (!a->raiz) return 0;
     No *atual = a->raiz;
     while (atual->esq) atual = atual->esq;
     *valor = atual->dado;
-    return true;
+    return 1;
 }
 
-bool arvore_maximo(Arvore *a, int *valor) {
-    if (!a->raiz) return false;
+int arvore_maximo(Arvore *a, int *valor) {
+    if (!a->raiz) return 0;
     No *atual = a->raiz;
     while (atual->dir) atual = atual->dir;
     *valor = atual->dado;
-    return true;
+    return 1;
 }
 
-bool arvore_vazia(Arvore *a) {
+int arvore_vazia(Arvore *a) {
     return a->raiz == NULL;
 }
 

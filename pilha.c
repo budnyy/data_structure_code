@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+
 
 typedef struct {
     int *dados;
@@ -21,11 +21,11 @@ void pilha_destruir(Pilha *p) {
     free(p);
 }
 
-bool pilha_vazia(Pilha *p) {
+int pilha_vazia(Pilha *p) {
     return p->topo == -1;
 }
 
-bool pilha_cheia(Pilha *p) {
+int pilha_cheia(Pilha *p) {
     return p->topo == p->capacidade - 1;
 }
 
@@ -33,28 +33,28 @@ int pilha_tamanho(Pilha *p) {
     return p->topo + 1;
 }
 
-bool pilha_empilhar(Pilha *p, int valor) {
+int pilha_empilhar(Pilha *p, int valor) {
     if (pilha_cheia(p)) {
         int nova_cap = p->capacidade * 2;
         int *novo = realloc(p->dados, nova_cap * sizeof(int));
-        if (!novo) return false;
+        if (!novo) return 0;
         p->dados = novo;
         p->capacidade = nova_cap;
     }
     p->dados[++p->topo] = valor;
-    return true;
+    return 1;
 }
 
-bool pilha_topo(Pilha *p, int *valor) {
-    if (pilha_vazia(p)) return false;
+int pilha_topo(Pilha *p, int *valor) {
+    if (pilha_vazia(p)) return 0;
     *valor = p->dados[p->topo];
-    return true;
+    return 1;
 }
 
-bool pilha_desempilhar(Pilha *p, int *valor) {
-    if (pilha_vazia(p)) return false;
+int pilha_desempilhar(Pilha *p, int *valor) {
+    if (pilha_vazia(p)) return 0;
     *valor = p->dados[p->topo--];
-    return true;
+    return 1;
 }
 
 void pilha_exibir(Pilha *p) {
@@ -74,7 +74,7 @@ int main() {
 
     pilha_empilhar(p, 10);
     pilha_empilhar(p, 20);
-    pilha_empilhar(p, 30);        // redimensiona
+    pilha_empilhar(p, 30);
     pilha_exibir(p);
 
     pilha_topo(p, &v);
