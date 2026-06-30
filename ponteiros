@@ -1,0 +1,7 @@
+#include <stdio.h>
+int main() {
+    int valor = 10;
+    int *p = &valor;
+    printf("Valor: %d\n", *p);
+    return 0;
+}
